@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secrets Maths — Prépa BEPC 2026 | Prof. M. TONI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--or:#c9a84c;--or2:#e8c96a;--fond:#0d1117;--fond2:#161b22;--fond3:#1c2333;--texte:#e6edf3;--gris:#8b949e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Jost',sans-serif;background:var(--fond);color:var(--texte);min-height:100vh;-webkit-user-select:none;user-select:none}
+body.admin-mode{-webkit-user-select:text;user-select:text}
+.hero{background:linear-gradient(160deg,#0d1117 0%,#1a2340 50%,#0d1117 100%);padding:60px 20px 40px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,.12) 0%,transparent 70%);pointer-events:none}
+.badge{display:inline-block;border:1px solid var(--or);color:var(--or);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:5px 16px;border-radius:20px;margin-bottom:20px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--or);line-height:1;margin-bottom:8px}
+.hero h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:var(--texte);margin-bottom:16px}
+.hero-sub{font-size:14px;color:var(--gris);letter-spacing:2px;text-transform:uppercase}
+.stars{color:var(--or);font-size:18px;margin:16px 0 4px}
+.hero-note{font-size:12px;color:var(--gris)}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:30px 16px;max-width:480px;margin:0 auto}
+.feat-card{background:var(--fond2);border:1px solid rgba(201,168,76,.15);border-radius:12px;padding:18px 14px}
+.feat-icon{font-size:24px;margin-bottom:8px}
+.feat-card strong{display:block;font-size:14px;color:var(--texte);margin-bottom:4px}
+.feat-card span{font-size:12px;color:var(--gris)}
+.pricing{margin:0 16px 24px;max-width:448px;margin-left:auto;margin-right:auto;background:linear-gradient(135deg,var(--fond2),var(--fond3));border:1px solid rgba(201,168,76,.3);border-radius:16px;padding:28px 20px;text-align:center}
+.pricing-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gris);margin-bottom:12px}
+.pricing-amount{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:700;color:var(--or);line-height:1}
+.pricing-currency{font-size:14px;color:var(--gris);margin:6px 0 20px;letter-spacing:1px}
+.btn-commander{display:block;width:100%;background:linear-gradient(135deg,var(--or),var(--or2));color:#0d1117;font-family:'Jost',sans-serif;font-size:16px;font-weight:600;padding:16px;border:none;border-radius:10px;cursor:pointer;letter-spacing:1px}
+.access-section{margin:0 16px 24px;max-width:448px;margin-left:auto;margin-right:auto;background:var(--fond2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px 20px;text-align:center}
+.access-section p{font-size:13px;color:var(--gris);margin-bottom:14px}
+.code-input-row{display:flex;gap:8px}
+.code-input{flex:1;background:var(--fond3);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;color:var(--texte);font-family:'Jost',sans-serif;font-size:15px;letter-spacing:3px;text-align:center;text-transform:uppercase}
+.code-input::placeholder{letter-spacing:2px;color:var(--gris);font-size:12px}
+.btn-acceder{background:var(--or);color:#0d1117;border:none;border-radius:8px;padding:12px 20px;font-family:'Jost',sans-serif;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
+.msg{margin-top:10px;font-size:13px;min-height:20px}
+.msg.ok{color:#3fb950}.msg.err{color:#f85149}
+.temoignages{padding:10px 16px 30px;max-width:480px;margin:0 auto}
+.temoignages h3{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--or);margin-bottom:16px}
+.temo-card{background:var(--fond2);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:16px;margin-bottom:12px}
+.temo-card p{font-size:13px;color:var(--texte);line-height:1.6;margin-bottom:8px;font-style:italic}
+.temo-author{font-size:12px;color:var(--or);font-weight:500}
+.citation{margin:0 16px 30px;max-width:448px;margin-left:auto;margin-right:auto;border-left:3px solid var(--or);padding:16px 20px;background:var(--fond2);border-radius:0 10px 10px 0}
+.citation p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--texte);line-height:1.6}
+.citation span{display:block;font-size:12px;color:var(--or);margin-top:8px}
+footer{text-align:center;padding:20px;font-size:12px;color:var(--gris);border-top:1px solid rgba(255,255,255,.06)}
+
+/* VIEWER */
+#viewer-overlay{display:none;position:fixed;inset:0;background:var(--fond);z-index:100;flex-direction:column}
+#viewer-overlay.active{display:flex}
+.viewer-header{background:var(--fond2);border-bottom:1px solid rgba(201,168,76,.2);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.viewer-header span{font-size:14px;color:var(--or);font-weight:600}
+.btn-close{background:rgba(248,81,73,.15);color:#f85149;border:1px solid rgba(248,81,73,.3);border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer}
+.viewer-iframe-container{flex:1;position:relative;overflow:hidden}
+.viewer-iframe-container iframe{width:100%;height:100%;border:none}
+.iframe-shield{position:absolute;inset:0;z-index:5;background:transparent}
+
+/* COMMANDE */
+#commande-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:150;justify-content:center;align-items:flex-end}
+#commande-overlay.active{display:flex}
+.commande-sheet{background:var(--fond2);border:1px solid rgba(201,168,76,.2);border-radius:20px 20px 0 0;padding:28px 20px 40px;width:100%;max-width:480px}
+.commande-sheet h3{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--or);margin-bottom:6px}
+.commande-sheet .subtitle{font-size:13px;color:var(--gris);margin-bottom:20px;line-height:1.5}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;color:var(--gris);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase}
+.form-group input{width:100%;background:var(--fond3);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px;color:var(--texte);font-size:15px}
+.form-group input:focus{outline:none;border-color:var(--or)}
+.btn-envoyer{width:100%;background:linear-gradient(135deg,var(--or),var(--or2));color:#0d1117;border:none;border-radius:10px;padding:15px;font-weight:600;font-size:16px;cursor:pointer;margin-top:6px}
+.btn-annuler{width:100%;background:none;border:none;color:var(--gris);font-size:14px;margin-top:10px;cursor:pointer;padding:8px}
+
+/* ADMIN LOGIN */
+#admin-login{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;justify-content:center;align-items:center}
+#admin-login.active{display:flex}
+.login-box{background:var(--fond2);border:1px solid rgba(201,168,76,.3);border-radius:16px;padding:32px 24px;width:90%;max-width:320px;text-align:center}
+.login-box h3{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--or);margin-bottom:20px}
+.login-box input{width:100%;background:var(--fond3);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;color:var(--texte);font-size:16px;text-align:center;margin-bottom:12px}
+.btn-login{width:100%;background:var(--or);color:#0d1117;border:none;border-radius:8px;padding:13px;font-weight:600;font-size:15px;cursor:pointer}
+.btn-cancel-login{width:100%;background:none;border:none;color:var(--gris);font-size:13px;margin-top:10px;cursor:pointer;padding:8px}
+.login-err{color:#f85149;font-size:12px;margin-bottom:8px;min-height:16px}
+
+/* ADMIN PANEL */
+#admin-overlay{display:none;position:fixed;inset:0;background:var(--fond);z-index:200;overflow-y:auto}
+#admin-overlay.active{display:block}
+.admin-header{background:var(--fond2);border-bottom:1px solid rgba(201,168,76,.2);padding:16px;display:flex;justify-content:space-between;align-items:center}
+.admin-header h2{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--or)}
+.admin-header p{font-size:12px;color:var(--gris)}
+.admin-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,.07);background:var(--fond2);overflow-x:auto}
+.tab{padding:12px 16px;font-size:13px;color:var(--gris);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent}
+.tab.active{color:var(--or);border-bottom-color:var(--or)}
+.admin-content{padding:16px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.stat-card{background:var(--fond2);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:20px 16px;text-align:center}
+.stat-card .num{font-family:'Cormorant Garamond',serif;font-size:42px;color:var(--or);line-height:1}
+.stat-card .label{font-size:12px;color:var(--gris);margin-top:4px}
+.mobile-money{background:var(--fond2);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:20px;text-align:center;margin-bottom:20px}
+.mobile-money p{font-size:13px;color:var(--gris);margin-bottom:8px}
+.mobile-money .num-tel{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--or);letter-spacing:4px}
+.protections{background:var(--fond2);border:1px solid rgba(248,81,73,.2);border-radius:12px;padding:16px;margin-bottom:20px}
+.protections h4{font-size:14px;color:#f85149;margin-bottom:10px}
+.protections li{font-size:13px;color:var(--texte);margin-bottom:6px;list-style:none}
+.gen-section{margin-bottom:20px}
+.gen-section h3{font-size:16px;color:var(--texte);margin-bottom:12px}
+.gen-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.gen-controls input{flex:1;min-width:120px;background:var(--fond3);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;color:var(--texte);font-size:14px}
+.btn-gen{background:var(--or);color:#0d1117;border:none;border-radius:8px;padding:10px 20px;font-weight:600;font-size:14px;cursor:pointer}
+.codes-list{display:flex;flex-direction:column;gap:8px}
+.code-item{background:var(--fond3);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
+.code-item .code-val{font-family:monospace;font-size:14px;color:var(--or);letter-spacing:2px}
+.code-status{font-size:11px;padding:3px 8px;border-radius:10px}
+.code-status.actif{background:rgba(63,185,80,.15);color:#3fb950}
+.code-status.utilise{background:rgba(139,148,158,.15);color:var(--gris)}
+.btn-del{background:none;border:none;color:#f85149;cursor:pointer;font-size:16px;padding:2px 6px}
+.commandes-list{display:flex;flex-direction:column;gap:10px}
+.commande-item{background:var(--fond3);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:14px}
+.cmd-header{display:flex;justify-content:space-between;margin-bottom:6px}
+.cmd-nom{font-size:14px;color:var(--texte);font-weight:500}
+.cmd-date{font-size:11px;color:var(--gris)}
+.cmd-tel{font-size:13px;color:var(--or)}
+.cmd-actions{display:flex;gap:8px;margin-top:10px}
+.btn-valider{flex:1;background:rgba(63,185,80,.15);color:#3fb950;border:1px solid rgba(63,185,80,.3);border-radius:6px;padding:8px;font-size:13px;cursor:pointer}
+.btn-refuser{flex:1;background:rgba(248,81,73,.15);color:#f85149;border:1px solid rgba(248,81,73,.3);border-radius:6px;padding:8px;font-size:13px;cursor:pointer}
+#admin-trigger{position:fixed;bottom:0;right:0;width:60px;height:60px;z-index:50;cursor:pointer;opacity:0}
+</style>
+</head>
+<body>
+
+<div id="main-page">
+<section class="hero">
+  <div class="badge">Édition 2026</div>
+  <h1>Secrets<br>Maths</h1>
+  <h2>Prépa BEPC 2026</h2>
+  <p class="hero-sub">Par Prof. M. TONI — CEG de Kou</p>
+  <div class="stars">★★★★★</div>
+  <p class="hero-note">Le guide complet pour réussir votre BEPC</p>
+</section>
+
+<div class="features">
+  <div class="feat-card"><div class="feat-icon">📚</div><strong>224 pages</strong><span>Contenu complet</span></div>
+  <div class="feat-card"><div class="feat-icon">📐</div><strong>Formules</strong><span>Toutes les clés</span></div>
+  <div class="feat-card"><div class="feat-icon">✏️</div><strong>Exercices</strong><span>Avec corrigés</span></div>
+  <div class="feat-card"><div class="feat-icon">🎯</div><strong>BEPC 2026</strong><span>Préparation complète</span></div>
+</div>
+
+<div class="pricing">
+  <p class="pricing-label">Accès complet — PDF 224 pages</p>
+  <div class="pricing-amount">2 500</div>
+  <p class="pricing-currency">FCFA — Paiement unique · Accès illimité</p>
+  <button class="btn-commander" onclick="ouvrirCommande()">💳 Commander maintenant</button>
+</div>
+
+<div class="access-section">
+  <p>Vous avez déjà un code d'accès ?</p>
+  <div class="code-input-row">
+    <input type="text" class="code-input" id="codeInput" placeholder="XXXXXXXX" maxlength="10">
+    <button class="btn-acceder" onclick="verifierCode()">Accéder</button>
+  </div>
+  <div class="msg" id="codeMsg"></div>
+</div>
+
+<div class="temoignages">
+  <h3>💬 Témoignages</h3>
+  <div class="temo-card">
+    <p>« Grâce à ce livre, j'ai pu revoir toutes les notions importantes avant le BEPC. Les exercices avec corrigés sont vraiment utiles. »</p>
+    <span class="temo-author">— Élève de 3ème, Bobo-Dioulasso</span>
+  </div>
+  <div class="temo-card">
+    <p>« Prof. TONI explique très clairement. Mes notes en maths ont beaucoup progressé depuis que j'utilise ce livre. »</p>
+    <span class="temo-author">— Parent d'élève, Kou</span>
+  </div>
+  <div class="temo-card">
+    <p>« Le meilleur investissement pour la réussite au BEPC. Je le recommande à tous mes élèves. »</p>
+    <span class="temo-author">— Enseignant, Dédougou</span>
+  </div>
+</div>
+
+<div class="citation">
+  <p>« Un homme prudent voit le danger de loin, les autres le voient trop tard. »</p>
+  <span>— Prof. M. TONI</span>
+</div>
+
+<footer>
+  © 2026 Secrets Maths — Prof. M. TONI · CEG de Kou<br>
+  <span style="color:var(--or)">54 36 81 80</span>
+</footer>
+</div>
+
+<div id="viewer-overlay">
+  <div class="viewer-header">
+    <span>📖 Secrets Maths — Prépa BEPC 2026</span>
+    <button class="btn-close" onclick="fermerViewer()">✕ Fermer</button>
+  </div>
+  <div class="viewer-iframe-container">
+    <iframe id="pdfFrame" src="" allowfullscreen></iframe>
+    <div class="iframe-shield"></div>
+  </div>
+</div>
+
+<div id="commande-overlay">
+  <div class="commande-sheet">
+    <h3>📲 Commander le livre</h3>
+    <p class="subtitle">Remplissez ce formulaire. Après paiement de <strong style="color:var(--or)">2 500 FCFA</strong> au <strong style="color:var(--or)">54 36 81 80</strong> (Mobile Money), vous recevrez votre code d'accès.</p>
+    <div class="form-group"><label>Votre nom complet</label><input type="text" id="cmdNom" placeholder="Ex: Koné Ibrahim"></div>
+    <div class="form-group"><label>Numéro de téléphone</label><input type="tel" id="cmdTel" placeholder="Ex: 70 00 00 00"></div>
+    <div class="form-group"><label>Ville / Établissement</label><input type="text" id="cmdVille" placeholder="Ex: Dédougou, CEG..."></div>
+    <button class="btn-envoyer" onclick="envoyerCommande()">📤 Envoyer la commande</button>
+    <button class="btn-annuler" onclick="fermerCommande()">Annuler</button>
+    <div class="msg" id="cmdMsg"></div>
+  </div>
+</div>
+
+<div id="admin-login">
+  <div class="login-box">
+    <h3>🔐 Admin</h3>
+    <div class="login-err" id="loginErr"></div>
+    <input type="password" id="adminPwd" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')loginAdmin()">
+    <button class="btn-login" onclick="loginAdmin()">Connexion</button>
+    <button class="btn-cancel-login" onclick="fermerLogin()">Annuler</button>
+  </div>
+</div>
+
+<div id="admin-overlay">
+  <div class="admin-header">
+    <div><h2>Panel Admin</h2><p>Prof. M. TONI — Prépa BEPC 2026</p></div>
+    <button class="btn-close" onclick="fermerAdmin()">Quitter</button>
+  </div>
+  <div class="admin-tabs">
+    <div class="tab active" onclick="showTab('stats')">📊 Stats</div>
+    <div class="tab" onclick="showTab('generer')">🔑 Générer</div>
+    <div class="tab" onclick="showTab('codes')">📋 Codes</div>
+    <div class="tab" onclick="showTab('commandes')">📥 Commandes</div>
+  </div>
+  <div class="admin-content">
+    <div id="tab-stats">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label">Codes générés</div></div>
+        <div class="stat-card"><div class="num" id="statActifs">0</div><div class="label">Actifs</div></div>
+        <div class="stat-card"><div class="num" id="statUtilises">0</div><div class="label">Utilisés</div></div>
+        <div class="stat-card"><div class="num" id="statRevenu">0</div><div class="label">FCFA</div></div>
+      </div>
+      <div class="mobile-money"><p>📱 Numéro Mobile Money</p><div class="num-tel">54 36 81 80</div></div>
+      <div class="protections">
+        <h4>🔒 Protections actives</h4>
+        <ul>
+          <li>✅ Clic droit bloqué</li>
+          <li>✅ Copier-coller désactivé</li>
+          <li>✅ Raccourcis clavier bloqués</li>
+          <li>✅ Lecture en ligne sécurisée (Google Drive)</li>
+        </ul>
+      </div>
+    </div>
+    <div id="tab-generer" style="display:none">
+      <div class="gen-section">
+        <h3>Générer des codes d'accès</h3>
+        <div class="gen-controls">
+          <input type="number" id="nbCodes" placeholder="Nombre de codes" min="1" max="50" value="1">
+          <button class="btn-gen" onclick="genererCodes()">Générer</button>
+        </div>
+        <div class="codes-list" id="newCodesList"></div>
+      </div>
+    </div>
+    <div id="tab-codes" style="display:none"><div class="codes-list" id="allCodesList"></div></div>
+    <div id="tab-commandes" style="display:none"><div class="commandes-list" id="commandesList"></div></div>
+  </div>
+</div>
+
+<div id="admin-trigger" onclick="ouvrirLogin()"></div>
+
+<script>
+const ADMIN_PWD = 'toni2026';
+const PDF_ID = '1bQQ6b7S0JqpHmXMoIZ_B5rNECqTakZTi';
+const PDF_URL = 'https://drive.google.com/file/d/' + PDF_ID + '/preview';
+const SK = 'sm_codes', SC = 'sm_commandes';
+
+function getCodes(){try{return JSON.parse(localStorage.getItem(SK))||[];}catch{return[];}}
+function saveCodes(c){localStorage.setItem(SK,JSON.stringify(c));}
+function getCommandes(){try{return JSON.parse(localStorage.getItem(SC))||[];}catch{return[];}}
+function saveCommandes(c){localStorage.setItem(SC,JSON.stringify(c));}
+function genCode(){const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let c='';for(let i=0;i<8;i++)c+=ch[Math.floor(Math.random()*ch.length)];return c;}
+
+document.addEventListener('contextmenu',e=>{if(!document.body.classList.contains('admin-mode'))e.preventDefault();});
+document.addEventListener('copy',e=>{if(!document.body.classList.contains('admin-mode'))e.preventDefault();});
+document.addEventListener('keydown',e=>{
+  if(!document.body.classList.contains('admin-mode')){
+    if(e.key==='PrintScreen')e.preventDefault();
+    if((e.ctrlKey||e.metaKey)&&['c','u','s','p','a'].includes(e.key.toLowerCase()))e.preventDefault();
+  }
+});
+
+function verifierCode(){
+  const val=document.getElementById('codeInput').value.trim().toUpperCase();
+  const msg=document.getElementById('codeMsg');
+  if(!val){msg.className='msg err';msg.textContent='Veuillez entrer un code.';return;}
+  const codes=getCodes();
+  const idx=codes.findIndex(c=>c.val===val&&c.actif);
+  if(idx===-1){msg.className='msg err';msg.textContent='Code invalide ou déjà utilisé.';return;}
+  codes[idx].actif=false;
+  codes[idx].dateUtil=new Date().toLocaleDateString('fr-FR');
+  saveCodes(codes);
+  msg.className='msg ok';
+  msg.textContent='✅ Accès accordé ! Chargement du livre...';
+  setTimeout(ouvrirViewer,800);
+}
+
+function ouvrirViewer(){
+  document.getElementById('pdfFrame').src=PDF_URL;
+  document.getElementById('viewer-overlay').classList.add('active');
+}
+function fermerViewer(){
+  document.getElementById('viewer-overlay').classList.remove('active');
+  document.getElementById('pdfFrame').src='';
+}
+
+function ouvrirCommande(){document.getElementById('commande-overlay').classList.add('active');}
+function fermerCommande(){document.getElementById('commande-overlay').classList.remove('active');}
+function envoyerCommande(){
+  const nom=document.getElementById('cmdNom').value.trim();
+  const tel=document.getElementById('cmdTel').value.trim();
+  const ville=document.getElementById('cmdVille').value.trim();
+  const msg=document.getElementById('cmdMsg');
+  if(!nom||!tel){msg.className='msg err';msg.textContent='Nom et téléphone obligatoires.';return;}
+  const c=getCommandes();
+  c.push({nom,tel,ville,date:new Date().toLocaleDateString('fr-FR'),statut:'en attente',id:Date.now()});
+  saveCommandes(c);
+  msg.className='msg ok';
+  msg.textContent='✅ Commande enregistrée ! Payez au 54 36 81 80 puis attendez votre code.';
+  const txt=encodeURIComponent('Bonjour Prof. TONI, je souhaite commander Secrets Maths BEPC 2026.\nNom: '+nom+'\nTél: '+tel+'\nVille: '+ville);
+  setTimeout(()=>{window.open('https://wa.me/22654368180?text='+txt,'_blank');fermerCommande();},1500);
+}
+
+function ouvrirLogin(){document.getElementById('admin-login').classList.add('active');setTimeout(()=>document.getElementById('adminPwd').focus(),100);}
+function fermerLogin(){document.getElementById('admin-login').classList.remove('active');document.getElementById('loginErr').textContent='';}
+function loginAdmin(){
+  if(document.getElementById('adminPwd').value===ADMIN_PWD){
+    fermerLogin();document.getElementById('adminPwd').value='';
+    document.body.classList.add('admin-mode');
+    document.getElementById('admin-overlay').classList.add('active');
+    rafraichirStats();afficherCodes();afficherCommandes();
+  }else{document.getElementById('loginErr').textContent='Mot de passe incorrect.';}
+}
+function fermerAdmin(){document.getElementById('admin-overlay').classList.remove('active');document.body.classList.remove('admin-mode');}
+
+function showTab(name){
+  ['stats','generer','codes','commandes'].forEach(t=>{document.getElementById('tab-'+t).style.display=t===name?'block':'none';});
+  document.querySelectorAll('.tab').forEach((el,i)=>{el.classList.toggle('active',['stats','generer','codes','commandes'][i]===name);});
+  if(name==='codes')afficherCodes();
+  if(name==='commandes')afficherCommandes();
+  if(name==='stats')rafraichirStats();
+}
+function rafraichirStats(){
+  const codes=getCodes();
+  const u=codes.filter(c=>!c.actif).length;
+  document.getElementById('statTotal').textContent=codes.length;
+  document.getElementById('statActifs').textContent=codes.filter(c=>c.actif).length;
+  document.getElementById('statUtilises').textContent=u;
+  document.getElementById('statRevenu').textContent=(u*2500).toLocaleString('fr-FR');
+}
+function genererCodes(){
+  const nb=Math.min(parseInt(document.getElementById('nbCodes').value)||1,50);
+  const codes=getCodes();const nouveaux=[];
+  for(let i=0;i<nb;i++){
+    let c;do{c=genCode();}while(codes.find(x=>x.val===c));
+    const obj={val:c,actif:true,date:new Date().toLocaleDateString('fr-FR'),dateUtil:null};
+    codes.push(obj);nouveaux.push(obj);
+  }
+  saveCodes(codes);
+  document.getElementById('newCodesList').innerHTML=nouveaux.map(c=>`<div class="code-item"><span class="code-val">${c.val}</span><span class="code-status actif">Actif</span></div>`).join('');
+  rafraichirStats();
+}
+function afficherCodes(){
+  const codes=getCodes();const list=document.getElementById('allCodesList');
+  if(!codes.length){list.innerHTML='<p style="color:var(--gris);font-size:13px;text-align:center;padding:20px">Aucun code généré.</p>';return;}
+  list.innerHTML=[...codes].reverse().map(c=>`
+    <div class="code-item">
+      <div><div class="code-val">${c.val}</div><div style="font-size:11px;color:var(--gris);margin-top:3px">${c.date}${c.dateUtil?' · Utilisé le '+c.dateUtil:''}</div></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="code-status ${c.actif?'actif':'utilise'}">${c.actif?'Actif':'Utilisé'}</span>
+        <button class="btn-del" onclick="supprimerCode('${c.val}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+function supprimerCode(val){if(!confirm('Supprimer ce code ?'))return;saveCodes(getCodes().filter(c=>c.val!==val));afficherCodes();rafraichirStats();}
+function afficherCommandes(){
+  const commandes=getCommandes();const list=document.getElementById('commandesList');
+  if(!commandes.length){list.innerHTML='<p style="color:var(--gris);font-size:13px;text-align:center;padding:20px">Aucune commande reçue.</p>';return;}
+  list.innerHTML=[...commandes].reverse().map(cmd=>`
+    <div class="commande-item">
+      <div class="cmd-header"><span class="cmd-nom">${cmd.nom}</span><span class="cmd-date">${cmd.date}</span></div>
+      <div class="cmd-tel">📱 ${cmd.tel}${cmd.ville?' · '+cmd.ville:''}</div>
+      <div style="font-size:12px;color:${cmd.statut==='validé'?'#3fb950':cmd.statut==='refusé'?'#f85149':'var(--or)'};margin-top:6px">● ${cmd.statut}</div>
+      ${cmd.statut==='en attente'?`<div class="cmd-actions"><button class="btn-valider" onclick="validerCommande(${cmd.id})">✅ Valider</button><button class="btn-refuser" onclick="refuserCommande(${cmd.id})">✕ Refuser</button></div>`:''}
+    </div>`).join('');
+}
+function validerCommande(id){const c=getCommandes();const i=c.findIndex(x=>x.id===id);if(i!==-1){c[i].statut='validé';saveCommandes(c);}afficherCommandes();}
+function refuserCommande(id){const c=getCommandes();const i=c.findIndex(x=>x.id===id);if(i!==-1){c[i].statut='refusé';saveCommandes(c);}afficherCommandes();}
+</script>
+</body>
+</html>
