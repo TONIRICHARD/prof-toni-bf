@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#080f1e"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="Prépa BEPC Prof TONI"/>
+  <title>Prépa BEPC 2026 avec Prof TONI</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+  <style>
+:root{--night:#080f1e;--card:#121f35;--card2:#162440;--gold:#c9a84c;--gold-light:#e8c96a;--gold-dim:rgba(201,168,76,.15);--red:#e05252;--green:#52c97a;--text:#eee8d5;--muted:#7a8fa8;--border:rgba(201,168,76,.14);--r:14px;--ff-head:'Cormorant Garamond',Georgia,serif;--ff-body:'DM Sans',sans-serif;--ff-mono:'JetBrains Mono',monospace;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--text);font-family:var(--ff-body);font-size:15px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:var(--ff-body)}
+.protected-content{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none}
+#loader{position:fixed;inset:0;z-index:9999;background:var(--night);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;transition:opacity .7s ease}
+#loader.gone{opacity:0;pointer-events:none}
+.loader-sigma{font-family:var(--ff-head);font-size:5rem;color:var(--gold);animation:breathe 1.6s ease infinite}
+.loader-bar{width:160px;height:2px;background:rgba(201,168,76,.2);border-radius:2px;overflow:hidden}
+.loader-bar-inner{height:100%;width:0;background:var(--gold);border-radius:2px;animation:load 1.4s ease forwards}
+@keyframes breathe{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes load{0%{width:0}100%{width:100%}}
+.screen{display:none;min-height:100vh}
+.screen.active{display:flex;flex-direction:column;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+#screen-landing{background:radial-gradient(ellipse at 70% 10%,rgba(201,168,76,.1) 0%,transparent 55%),var(--night)}
+.land-hero{position:relative;overflow:hidden;padding:3rem 1.4rem 2rem;text-align:center}
+.land-hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(201,168,76,.03) 39px,rgba(201,168,76,.03) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(201,168,76,.03) 39px,rgba(201,168,76,.03) 40px);pointer-events:none}
+.land-badge{display:inline-block;border:1px solid var(--border);border-radius:30px;padding:.3rem 1rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;background:var(--gold-dim)}
+.land-sigma{font-family:var(--ff-head);font-size:5.5rem;color:var(--gold);line-height:1;filter:drop-shadow(0 0 30px rgba(201,168,76,.35));margin-bottom:.5rem}
+.land-title{font-family:var(--ff-head);font-size:2.2rem;font-weight:700;color:var(--text);line-height:1.15;margin-bottom:.6rem}
+.land-subtitle{font-size:1rem;color:var(--muted);line-height:1.7;max-width:360px;margin:0 auto 1.5rem}
+.land-author{display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--gold);border:1px solid var(--border);border-radius:30px;padding:.3rem .9rem}
+.book-visual{margin:1.8rem auto;width:140px;height:190px;position:relative;perspective:800px}
+.book-cover{width:100%;height:100%;background:linear-gradient(145deg,#1a2e4a,#0e1a2e);border-radius:4px 10px 10px 4px;border:1px solid rgba(201,168,76,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;box-shadow:-6px 6px 20px rgba(0,0,0,.6);transform:rotateY(-10deg) rotateX(3deg);transition:transform .4s ease;padding:.8rem;text-align:center}
+.book-cover:hover{transform:rotateY(-5deg) rotateX(2deg) scale(1.04)}
+.book-cover-sigma{font-family:var(--ff-head);font-size:2.8rem;color:var(--gold)}
+.book-cover-title{font-family:var(--ff-head);font-size:.72rem;color:var(--text);line-height:1.3}
+.book-cover-level{font-size:.62rem;color:var(--gold);letter-spacing:.08em;margin-top:.2rem}
+.book-spine{position:absolute;left:-18px;top:4px;bottom:4px;width:18px;background:linear-gradient(to right,#0a1220,#162440);border-radius:4px 0 0 4px;border:1px solid rgba(201,168,76,.2);border-right:none;display:flex;align-items:center;justify-content:center}
+.book-spine-text{font-family:var(--ff-head);font-size:.52rem;color:var(--gold);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.08em}
+.features{padding:.5rem 1.2rem 1rem;display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.9rem;display:flex;flex-direction:column;gap:.3rem}
+.feat-icon{font-size:1.5rem}
+.feat-label{font-size:.8rem;font-weight:600;color:var(--text)}
+.feat-val{font-size:.72rem;color:var(--muted)}
+.price-block{margin:0 1.2rem 1rem;background:linear-gradient(135deg,rgba(201,168,76,.12),var(--card));border:1px solid rgba(201,168,76,.35);border-radius:var(--r);padding:1.4rem;text-align:center}
+.price-label{font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.price-amount{font-family:var(--ff-head);font-size:3rem;font-weight:700;color:var(--gold);line-height:1;margin:.3rem 0}
+.price-sub{font-size:.78rem;color:var(--muted);margin-bottom:1rem}
+.btn-buy{display:block;width:100%;background:var(--gold);color:var(--night);font-weight:700;font-size:1rem;padding:.85rem;border-radius:10px;border:none;transition:background .2s,transform .1s}
+.btn-buy:hover{background:var(--gold-light);transform:translateY(-2px)}
+.code-section{margin:0 1.2rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;text-align:center}
+.code-section p{font-size:.85rem;color:var(--muted);margin-bottom:.8rem}
+.code-input-wrap{display:flex;gap:.5rem}
+.code-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--ff-mono);font-size:1.1rem;padding:.65rem .9rem;outline:none;text-align:center;letter-spacing:.15em;transition:border-color .2s}
+.code-input:focus{border-color:var(--gold)}
+.code-input.error{border-color:var(--red);animation:shake .3s ease}
+.code-input.success{border-color:var(--green)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.btn-access{background:var(--gold);color:var(--night);font-weight:700;padding:.65rem 1.2rem;border-radius:8px;border:none;font-size:.9rem;white-space:nowrap}
+.code-msg{font-size:.78rem;margin-top:.5rem;height:1rem}
+.code-msg.err{color:var(--red)}
+.code-msg.ok{color:var(--green)}
+.section-head{padding:1rem 1.2rem .5rem;font-family:var(--ff-head);font-size:1.4rem;color:var(--gold)}
+.testis{padding:0 1.2rem 1rem;display:flex;flex-direction:column;gap:.7rem}
+.testi{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.9rem 1rem}
+.testi-text{font-size:.85rem;color:var(--text);font-style:italic;margin-bottom:.4rem}
+.testi-author{font-size:.72rem;color:var(--gold)}
+.stars{color:var(--gold);font-size:.8rem;margin-bottom:.3rem}
+.land-footer{padding:1.2rem;text-align:center;border-top:1px solid var(--border);font-size:.72rem;color:var(--muted)}
+#screen-payment{background:var(--night)}
+.pay-header{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border-bottom:1px solid var(--border)}
+.btn-back{background:none;border:none;color:var(--muted);font-size:1.4rem;padding:.3rem}
+.pay-header-title{font-family:var(--ff-head);font-size:1.3rem;color:var(--text)}
+.pay-steps{padding:1rem 1.2rem;display:flex;flex-direction:column;gap:1rem}
+.pay-step{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;display:flex;gap:1rem;align-items:flex-start}
+.step-num{min-width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--night);font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-body h4{font-size:.95rem;color:var(--text);margin-bottom:.25rem}
+.step-body p{font-size:.82rem;color:var(--muted);line-height:1.5}
+.step-body code{display:block;margin-top:.5rem;font-family:var(--ff-mono);font-size:1rem;color:var(--gold);background:rgba(201,168,76,.08);border:1px solid var(--border);border-radius:8px;padding:.5rem .8rem}
+.copy-btn{display:inline-flex;align-items:center;gap:.3rem;background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);font-size:.72rem;border-radius:6px;padding:.3rem .7rem;margin-top:.4rem}
+.pay-proof{margin:0 1.2rem 1rem;background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem}
+.pay-proof h3{font-family:var(--ff-head);font-size:1.1rem;margin-bottom:.8rem;color:var(--text)}
+.form-group{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.8rem}
+.form-label{font-size:.78rem;color:var(--muted);font-weight:500}
+.form-input{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:.65rem .9rem;outline:none;font-size:.9rem;transition:border-color .2s}
+.form-input:focus{border-color:var(--gold)}
+.btn-confirm{display:block;width:100%;background:var(--gold);color:var(--night);font-weight:700;font-size:.95rem;padding:.8rem;border-radius:10px;border:none;margin-top:.4rem;transition:background .2s}
+.btn-confirm:hover{background:var(--gold-light)}
+.pay-note{margin:0 1.2rem 1.5rem;background:rgba(82,201,122,.08);border:1px solid rgba(82,201,122,.2);border-radius:10px;padding:.9rem 1rem;font-size:.8rem;color:var(--muted);line-height:1.6}
+.pay-note strong{color:var(--green)}
+#screen-pending{background:var(--night);align-items:center;justify-content:center;text-align:center;padding:2rem}
+.pend-icon{font-size:4rem;margin-bottom:1rem;animation:spin 3s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.pend-title{font-family:var(--ff-head);font-size:2rem;color:var(--gold);margin-bottom:.8rem}
+.pend-text{color:var(--muted);font-size:.9rem;max-width:320px;margin:0 auto 1.5rem;line-height:1.7}
+.pend-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;max-width:340px;width:100%;text-align:left}
+.pend-box h4{font-size:.85rem;color:var(--muted);margin-bottom:.5rem}
+.pend-info{display:flex;flex-direction:column;gap:.4rem}
+.pend-row{display:flex;justify-content:space-between;font-size:.82rem;border-bottom:1px solid rgba(255,255,255,.04);padding-bottom:.3rem}
+.pend-row:last-child{border-bottom:none}
+.pend-row span:first-child{color:var(--muted)}
+.pend-row span:last-child{color:var(--text);font-weight:500}
+.pend-whatsapp{display:flex;align-items:center;gap:.5rem;justify-content:center;background:rgba(82,201,122,.1);border:1px solid rgba(82,201,122,.25);border-radius:10px;padding:.9rem 1.4rem;margin-top:1.2rem;font-weight:600;color:var(--green);font-size:.9rem;max-width:340px;width:100%}
+#screen-book{background:var(--night)}
+.book-header{position:sticky;top:0;z-index:100;background:rgba(8,15,30,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.8rem 1.2rem;display:flex;align-items:center;gap:.8rem}
+.book-header-logo{font-family:var(--ff-head);font-size:1.5rem;color:var(--gold)}
+.book-header-info{flex:1}
+.book-header-title{font-family:var(--ff-head);font-size:.9rem;color:var(--text)}
+.book-header-sub{font-size:.68rem;color:var(--muted)}
+.btn-logout{background:none;border:1px solid var(--border);color:var(--muted);font-size:.7rem;padding:.35rem .7rem;border-radius:6px}
+.user-welcome{margin:1rem 1.2rem;background:linear-gradient(135deg,rgba(201,168,76,.1),var(--card));border:1px solid rgba(201,168,76,.25);border-radius:var(--r);padding:1rem 1.2rem;display:flex;align-items:center;gap:.8rem}
+.welcome-icon{font-size:2rem}
+.welcome-text h3{font-family:var(--ff-head);font-size:1.1rem;color:var(--text)}
+.welcome-text p{font-size:.78rem;color:var(--muted);margin-top:.1rem}
+.welcome-code{font-family:var(--ff-mono);font-size:.7rem;background:var(--gold-dim);border:1px solid var(--border);border-radius:6px;padding:.2rem .5rem;color:var(--gold);margin-top:.3rem;display:inline-block}
+.timer-bar-wrap{margin:0 1.2rem .8rem;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem}
+.timer-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.timer-label{font-size:.78rem;color:var(--muted)}
+.timer-count{font-family:var(--ff-mono);font-size:1rem;font-weight:700;color:var(--gold)}
+.timer-count.warning{color:var(--red);animation:pulse-red .8s ease infinite}
+@keyframes pulse-red{0%,100%{opacity:1}50%{opacity:.5}}
+.timer-track{height:6px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.timer-fill{height:100%;background:var(--gold);border-radius:4px;transition:width 1s linear,background .5s}
+.timer-fill.warning{background:var(--red)}
+.pdf-viewer-wrap{margin:0 1.2rem 1rem;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);position:relative}
+.pdf-shield{position:absolute;inset:0;z-index:10;background:transparent;pointer-events:none}
+.pdf-watermark{position:absolute;inset:0;z-index:9;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}
+.pdf-watermark-text{font-family:var(--ff-head);font-size:1.1rem;color:rgba(201,168,76,.12);transform:rotate(-35deg);white-space:nowrap;letter-spacing:.05em;line-height:2.8;text-align:center;width:200%;word-break:break-all}
+.pdf-frame{width:100%;height:72vh;border:none;display:block}
+.pdf-loading-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;background:var(--card);z-index:20;transition:opacity .5s}
+.pdf-loading-overlay.hidden{opacity:0;pointer-events:none}
+.pdf-loading-sigma{font-family:var(--ff-head);font-size:3rem;color:var(--gold);animation:breathe 1.4s ease infinite}
+#blockScreen{display:none;position:fixed;inset:0;z-index:8000;background:rgba(8,15,30,.97);backdrop-filter:blur(16px);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
+#blockScreen.active{display:flex;animation:fadeUp .4s ease}
+.block-icon{font-size:4.5rem;margin-bottom:1rem}
+.block-title{font-family:var(--ff-head);font-size:2.2rem;color:var(--red);margin-bottom:.8rem;line-height:1.2}
+.block-text{font-size:.9rem;color:var(--muted);max-width:340px;line-height:1.8;margin-bottom:1.8rem}
+.block-text strong{color:var(--text)}
+.block-btn-buy{display:block;width:100%;max-width:320px;background:var(--gold);color:var(--night);font-weight:700;font-size:1.05rem;padding:.95rem;border-radius:12px;border:none;margin-bottom:.8rem;transition:background .2s,transform .1s;box-shadow:0 8px 24px rgba(201,168,76,.3)}
+.block-btn-buy:hover{background:var(--gold-light);transform:translateY(-2px)}
+.block-btn-wa{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;max-width:320px;background:rgba(82,201,122,.12);border:1px solid rgba(82,201,122,.3);color:var(--green);font-weight:600;font-size:.95rem;padding:.85rem;border-radius:12px;transition:background .2s}
+.block-preview-note{margin-top:1.2rem;font-size:.75rem;color:var(--muted);border-top:1px solid var(--border);padding-top:1rem;max-width:320px}
+#screenshotOverlay{display:none;position:fixed;inset:0;z-index:9500;background:#000}
+#screen-admin{background:var(--night)}
+.admin-header{background:var(--card);border-bottom:1px solid var(--border);padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between}
+.admin-header h1{font-family:var(--ff-head);font-size:1.3rem;color:var(--gold)}
+.admin-header p{font-size:.72rem;color:var(--muted)}
+.admin-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--card)}
+.admin-tab{flex:1;padding:.7rem;text-align:center;font-size:.72rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.admin-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.admin-pane{display:none;padding:1rem 1.2rem}
+.admin-pane.active{display:block}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.2rem}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center}
+.stat-num{font-family:var(--ff-head);font-size:2rem;color:var(--gold)}
+.stat-lbl{font-size:.72rem;color:var(--muted);margin-top:.2rem}
+.gen-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;margin-bottom:1rem}
+.gen-box h3{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:.8rem}
+.gen-form{display:flex;flex-direction:column;gap:.6rem}
+.gen-input{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:.6rem .9rem;outline:none;font-size:.88rem;transition:border-color .2s}
+.gen-input:focus{border-color:var(--gold)}
+.btn-generate{background:var(--gold);color:var(--night);font-weight:700;padding:.7rem;border-radius:8px;border:none;font-size:.9rem;transition:background .2s}
+.btn-generate:hover{background:var(--gold-light)}
+.generated-code-box{display:none;margin-top:.8rem;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:10px;padding:1rem;text-align:center}
+.gen-code-display{font-family:var(--ff-mono);font-size:1.8rem;font-weight:700;color:var(--gold);letter-spacing:.2em;margin:.5rem 0}
+.btn-copy-code{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:var(--night);font-weight:700;padding:.5rem 1.2rem;border-radius:8px;border:none;font-size:.82rem;margin-top:.6rem;transition:background .2s}
+.codes-list{display:flex;flex-direction:column;gap:.5rem}
+.code-row{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.code-val{font-family:var(--ff-mono);font-size:.85rem;color:var(--gold);font-weight:700;letter-spacing:.08em;flex:1;min-width:100px}
+.code-meta{font-size:.72rem;color:var(--muted);flex:2;min-width:120px}
+.code-status{font-size:.68rem;padding:.25rem .6rem;border-radius:20px;font-weight:600}
+.code-status.active{background:rgba(82,201,122,.12);color:var(--green)}
+.code-status.used{background:rgba(255,255,255,.05);color:var(--muted)}
+.code-status.revoked{background:rgba(224,82,82,.1);color:var(--red)}
+.btn-revoke{background:none;border:1px solid rgba(224,82,82,.3);color:var(--red);font-size:.68rem;padding:.25rem .6rem;border-radius:6px}
+.req-card{background:var(--card);border:1px solid rgba(201,168,76,.2);border-radius:var(--r);padding:1rem;margin-bottom:.8rem}
+.req-name{font-weight:700;font-size:1rem;color:var(--gold);margin-bottom:.4rem}
+.req-detail{font-size:.82rem;color:var(--muted);line-height:1.8;margin-bottom:.8rem}
+#screen-admin-login{background:var(--night);align-items:center;justify-content:center;padding:2rem}
+.admin-login-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:2rem;max-width:320px;width:100%;text-align:center}
+.admin-login-box h2{font-family:var(--ff-head);font-size:1.6rem;color:var(--gold);margin-bottom:.3rem}
+.admin-login-box p{font-size:.8rem;color:var(--muted);margin-bottom:1.2rem}
+.admin-login-form{display:flex;flex-direction:column;gap:.7rem}
+.btn-admin-login{background:var(--gold);color:var(--night);font-weight:700;padding:.75rem;border-radius:8px;border:none;font-size:.95rem;transition:background .2s}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:.7rem 1.4rem;font-size:.85rem;color:var(--text);z-index:9000;transition:transform .3s ease;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.wa-float{position:fixed;bottom:1.2rem;right:1.2rem;z-index:500;width:52px;height:52px;border-radius:50%;background:var(--green);border:none;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 16px rgba(82,201,122,.4);transition:transform .2s}
+.wa-float:hover{transform:scale(1.08)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--night)}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.25);border-radius:4px}
+@media(min-width:480px){.features{grid-template-columns:repeat(4,1fr)}.stat-grid{grid-template-columns:repeat(4,1fr)}}
+  </style>
+</head>
+<body>
+<div id="screenshotOverlay"></div>
+<div id="blockScreen">
+  <div class="block-icon">⏰</div>
+  <div class="block-title">Temps d'aperçu<br/>écoulé</div>
+  <div class="block-text">Vous avez utilisé votre <strong>1 minute d'aperçu gratuit</strong>.<br/><br/>Pour accéder au livre complet <strong>sans limite de temps</strong>, commandez maintenant.</div>
+  <button class="block-btn-buy" onclick="blockBuy()">💳 Commander pour 2 500 FCFA</button>
+  <a id="blockWa" href="#" class="block-btn-wa" target="_blank">💬 Contacter Prof. TONI sur WhatsApp</a>
+  <div class="block-preview-note">Vous avez déjà un code ? <button onclick="blockGoCode()" style="background:none;border:none;color:var(--gold);font-size:.75rem;cursor:pointer;text-decoration:underline">Entrez-le ici</button></div>
+</div>
+<div id="loader">
+  <div class="loader-sigma">∑</div>
+  <div style="font-family:var(--ff-head);font-size:1.3rem;color:var(--muted);text-align:center">Prépa BEPC 2026 — Prof TONI</div>
+  <div class="loader-bar"><div class="loader-bar-inner"></div></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<div class="screen active" id="screen-landing">
+  <div class="land-hero">
+    <div class="land-badge">📚 Burkina Faso — BEPC 2026</div>
+    <div class="land-sigma">∑</div>
+    <h1 class="land-title">Prépa BEPC 2026<br/>avec Prof TONI</h1>
+    <p class="land-subtitle">Livre Fondamental de la Réussite Mathématiques 3ème by Prof TONI</p>
+    <div class="land-author">✍️ Prof. M. TONI</div>
+    <div class="book-visual">
+      <div class="book-spine"><span class="book-spine-text">PRÉPA BEPC 2026 · Prof TONI</span></div>
+      <div class="book-cover">
+        <div class="book-cover-sigma">∑</div>
+        <div class="book-cover-title">Livre Fondamental<br/>de la Réussite<br/>Mathématiques 3ème</div>
+        <div class="book-cover-level">by Prof TONI · BEPC 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="feat"><div class="feat-icon">📖</div><div class="feat-label">224 pages</div><div class="feat-val">Contenu complet</div></div>
+    <div class="feat"><div class="feat-icon">📐</div><div class="feat-label">Formules</div><div class="feat-val">Toutes les clés</div></div>
+    <div class="feat"><div class="feat-icon">✏️</div><div class="feat-label">Exercices</div><div class="feat-val">Avec corrigés</div></div>
+    <div class="feat"><div class="feat-icon">🎯</div><div class="feat-label">BEPC 2026</div><div class="feat-val">Préparation complète</div></div>
+  </div>
+
+  <div class="price-block">
+    <div class="price-label">Accès complet illimité — PDF 224 pages</div>
+    <div class="price-amount">2 500</div>
+    <div class="price-sub">FCFA — Paiement unique · Accès illimité</div>
+    <button class="btn-buy" onclick="go('payment')">💳 Commander maintenant</button>
+  </div>
+  <div class="code-section">
+    <p>Vous avez déjà un code d'accès ?</p>
+    <div class="code-input-wrap">
+      <input class="code-input" id="landingCodeInput" placeholder="XXXXXXXX" maxlength="8" autocomplete="off"/>
+      <button class="btn-access" onclick="checkCode()">Accéder →</button>
+    </div>
+    <div class="code-msg" id="codeMsgLanding"></div>
+  </div>
+  <div class="section-head">💬 Témoignages</div>
+  <div class="testis">
+    <div class="testi"><div class="stars">★★★★★</div><div class="testi-text">« Grâce à ce livre, j'ai eu 18/20 en mathématiques au BEPC ! »</div><div class="testi-author">— Aminata K., ancienne élève de 3ème</div></div>
+    <div class="testi"><div class="stars">★★★★★</div><div class="testi-text">« Mon fils a progressé rapidement avec les corrigés détaillés. »</div><div class="testi-author">— Parent d'élève, Dédougou</div></div>
+    <div class="testi"><div class="stars">★★★★☆</div><div class="testi-text">« Les formules clés m'ont sauvé en révisions. Un must-have ! »</div><div class="testi-author">— Ibrahim S., élève de 3ème</div></div>
+  </div>
+  <div class="land-footer">
+    <p>© 2026 Prépa BEPC 2026 avec Prof TONI</p>
+    <p style="margin-top:.3rem"><em>« Un homme prudent voit le danger de loin, les autres le voient trop tard. »</em></p>
+    <p style="margin-top:.3rem">— Prof. M. TONI</p>
+    <p style="margin-top:.8rem"><button onclick="go('admin-login')" style="background:none;border:none;color:rgba(255,255,255,.12);font-size:.65rem;cursor:pointer">⚙ Admin</button></p>
+  </div>
+</div>
+
+<div class="screen" id="screen-payment">
+  <div class="pay-header">
+    <button class="btn-back" onclick="go('landing')">←</button>
+    <div><div class="pay-header-title">Commander le livre</div><div style="font-size:.72rem;color:var(--muted)">Paiement Mobile Money sécurisé</div></div>
+  </div>
+  <div class="pay-steps">
+    <div class="pay-step"><div class="step-num">1</div><div class="step-body"><h4>Envoyez 2 500 FCFA par Mobile Money</h4><p>Numéro du bénéficiaire :</p><code>54 36 81 80</code><button class="copy-btn" onclick="copyText('54368180','Numéro copié !')">📋 Copier</button><p style="margin-top:.5rem">Bénéficiaire : <strong>TONI M.</strong></p></div></div>
+    <div class="pay-step"><div class="step-num">2</div><div class="step-body"><h4>Notez l'heure de votre transaction ✍️</h4><p>Relevez l'heure exacte à laquelle vous avez effectué le transfert Mobile Money.</p></div></div>
+    <div class="pay-step"><div class="step-num">3</div><div class="step-body"><h4>Remplissez le formulaire ci-dessous</h4><p>Votre commande arrivera directement sur le WhatsApp de Prof. TONI.</p></div></div>
+  </div>
+  <div class="pay-proof">
+    <h3>📝 Confirmer votre paiement</h3>
+    <div class="gen-form">
+      <div class="form-group"><label class="form-label">Votre nom complet *</label><input class="form-input" id="payName" placeholder="Ex: Koné Ibrahim" type="text"/></div>
+      <div class="form-group"><label class="form-label">Votre numéro de téléphone *</label><input class="form-input" id="payPhone" placeholder="Ex: 70000000" type="tel"/></div>
+      <div class="form-group"><label class="form-label">Heure de la transaction ✍️ *</label><input class="form-input" id="payTxn" placeholder="Ex: 14h35" type="text"/></div>
+      <div class="form-group"><label class="form-label">Niveau scolaire</label><input class="form-input" id="payLevel" placeholder="Ex: 3ème A" type="text"/></div>
+      <button class="btn-confirm" onclick="submitPayment()">📨 Envoyer ma commande sur WhatsApp</button>
+    </div>
+  </div>
+  <div class="pay-note"><strong>⚡ Comment ça marche :</strong> Votre commande est envoyée directement sur le WhatsApp de Prof. TONI. Il vérifie votre paiement et vous envoie votre code personnel sous <strong>24h</strong>.</div>
+</div>
+
+<div class="screen" id="screen-pending" style="flex-direction:column">
+  <div style="text-align:center;padding:3rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;flex:1;justify-content:center">
+    <div class="pend-icon">⏳</div>
+    <div class="pend-title">Commande envoyée !</div>
+    <div class="pend-text">Prof. TONI a reçu votre commande. Il vérifiera votre paiement et vous enverra votre code sous <strong style="color:var(--gold)">24 heures</strong>.</div>
+    <div class="pend-box"><h4>RÉCAPITULATIF</h4><div class="pend-info" id="pendingInfo"></div></div>
+    <a id="whatsappLink" href="#" class="pend-whatsapp" target="_blank">💬 Renvoyer sur WhatsApp</a>
+    <button onclick="go('landing')" style="background:none;border:1px solid var(--border);color:var(--muted);padding:.6rem 1.4rem;border-radius:8px;margin-top:.5rem;font-size:.85rem">← Retour à l'accueil</button>
+  </div>
+</div>
+
+<div class="screen" id="screen-book">
+  <div class="book-header">
+    <div class="book-header-logo">∑</div>
+    <div class="book-header-info">
+      <div class="book-header-title">Livre Fondamental de la Réussite Mathématiques 3ème</div>
+      <div class="book-header-sub">by Prof TONI · Prépa BEPC 2026</div>
+    </div>
+    <button class="btn-logout" onclick="logout()">Quitter</button>
+  </div>
+  <div class="user-welcome">
+    <div class="welcome-icon">🎓</div>
+    <div class="welcome-text">
+      <h3 id="welcomeName">Bienvenue !</h3>
+      <p id="welcomeSubtitle">✅ Accès complet — lecture illimitée</p>
+      <div class="welcome-code" id="welcomeCode"></div>
+    </div>
+  </div>
+  <div class="timer-bar-wrap" id="timerWrap" style="display:none">
+    <div class="timer-top"><span class="timer-label">⏱ Aperçu gratuit</span><span class="timer-count" id="timerCount">1:00</span></div>
+    <div class="timer-track"><div class="timer-fill" id="timerFill" style="width:100%"></div></div>
+  </div>
+  <div class="pdf-viewer-wrap protected-content" id="pdfViewerWrap">
+    <div class="pdf-shield"></div>
+    <div class="pdf-watermark"><div class="pdf-watermark-text" id="pdfWatermarkText">Prépa BEPC 2026 · Prof TONI · APERÇU</div></div>
+    <iframe id="pdfFrame" class="pdf-frame" src="" allowfullscreen onload="document.getElementById('pdfLoadingOverlay').classList.add('hidden')"></iframe>
+    <div class="pdf-loading-overlay" id="pdfLoadingOverlay">
+      <div class="pdf-loading-sigma">∑</div>
+      <p style="font-size:.85rem;color:var(--muted)">Chargement du livre…</p>
+    </div>
+  </div>
+  <div style="padding:0 1.2rem 2rem;text-align:center;margin-top:.5rem">
+    <div style="font-size:.72rem;color:var(--muted);font-style:italic">
+      « Un homme prudent voit le danger de loin, les autres le voient trop tard. »<br/>
+      <span style="color:var(--gold)">— Prof. M. TONI</span>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-admin-login">
+  <div class="admin-login-box">
+    <h2>⚙ Administration</h2>
+    <p>Espace réservé à Prof. M. TONI</p>
+    <div class="admin-login-form">
+      <input class="gen-input" id="adminPass" type="password" placeholder="Mot de passe admin"/>
+      <button class="btn-admin-login" onclick="adminLogin()">Connexion</button>
+      <button onclick="go('landing')" style="background:none;border:none;color:var(--muted);font-size:.8rem;padding:.4rem">← Retour</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-admin">
+  <div class="admin-header">
+    <div><h1>Panel Admin</h1><p>Prof. M. TONI — Prépa BEPC 2026</p></div>
+    <button onclick="go('landing')" style="background:none;border:1px solid var(--border);color:var(--muted);padding:.4rem .8rem;border-radius:6px;font-size:.75rem">Quitter</button>
+  </div>
+  <div class="admin-tabs">
+    <div class="admin-tab active" onclick="adminTab('stats')">📊 Stats</div>
+    <div class="admin-tab" onclick="adminTab('generate')">🔑 Générer</div>
+    <div class="admin-tab" onclick="adminTab('codes')">📋 Codes</div>
+    <div class="admin-tab" onclick="adminTab('requests')">📥 Commandes</div>
+  </div>
+  <div class="admin-pane active" id="pane-stats">
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-num" id="statTotal">0</div><div class="stat-lbl">Codes générés</div></div>
+      <div class="stat-box"><div class="stat-num" id="statActive">0</div><div class="stat-lbl">Actifs</div></div>
+      <div class="stat-box"><div class="stat-num" id="statUsed">0</div><div class="stat-lbl">Utilisés</div></div>
+      <div class="stat-box"><div class="stat-num" id="statRevenue">0</div><div class="stat-lbl">FCFA</div></div>
+    </div>
+    <div class="gen-box"><h3>📱 Numéro Mobile Money</h3><p style="font-family:var(--ff-mono);font-size:1.4rem;color:var(--gold);text-align:center;padding:.8rem 0">54 36 81 80</p></div>
+    <div class="gen-box" style="background:rgba(224,82,82,.05);border-color:rgba(224,82,82,.2)">
+      <h3 style="color:var(--red)">🔒 Protections actives</h3>
+      <ul style="font-size:.8rem;color:var(--muted);line-height:2;padding-left:1rem;margin-top:.4rem">
+        <li>✅ Aperçu gratuit 1 minute puis blocage</li>
+        <li>✅ Clic droit bloqué</li>
+        <li>✅ PrintScreen → flash noir</li>
+        <li>✅ Sélection texte désactivée</li>
+        <li>✅ Filigrane nom élève sur le viewer</li>
+        <li>✅ Acheteur avec code → accès illimité</li>
+        <li>✅ Commandes reçues par WhatsApp</li>
+        <li>✅ 1 bouton = Valider + Code + WhatsApp élève</li>
+      </ul>
+    </div>
+  </div>
+  <div class="admin-pane" id="pane-generate">
+    <div class="gen-box">
+      <h3>🔑 Générer un code manuellement</h3>
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:.8rem">💡 Utilisez l'onglet 📥 Commandes pour traiter en 1 seul clic.</p>
+      <div class="gen-form">
+        <input class="gen-input" id="genName" placeholder="Nom complet *" type="text"/>
+        <input class="gen-input" id="genPhone" placeholder="Numéro de téléphone *" type="tel"/>
+        <input class="gen-input" id="genTxn" placeholder="Heure de transaction ✍️" type="text"/>
+        <input class="gen-input" id="genNote" placeholder="Note (ex: 3ème B)" type="text"/>
+        <button class="btn-generate" onclick="generateCodeManuel()">⚡ Générer le code</button>
+      </div>
+      <div class="generated-code-box" id="generatedBox">
+        <div style="font-size:.78rem;color:var(--muted)">Code d'accès personnel pour</div>
+        <div style="font-weight:600;color:var(--text);margin:.2rem 0" id="genForName"></div>
+        <div class="gen-code-display" id="genCodeDisplay"></div>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem" id="genCodeInfo"></div>
+        <button class="btn-copy-code" onclick="copyGeneratedCode()">📋 Copier le code</button>
+        <button onclick="shareManuelWhatsApp()" style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(82,201,122,.15);border:1px solid rgba(82,201,122,.3);color:var(--green);font-weight:700;padding:.5rem 1.2rem;border-radius:8px;border:none;font-size:.82rem;margin:.4rem;cursor:pointer">💬 Envoyer WhatsApp</button>
+      </div>
+    </div>
+  </div>
+  <div class="admin-pane" id="pane-codes">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+      <h3 style="font-family:var(--ff-head);font-size:1.1rem;color:var(--text)">Tous les codes</h3>
+      <button onclick="exportCodes()" style="background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);font-size:.72rem;padding:.3rem .7rem;border-radius:6px">📥 Exporter</button>
+    </div>
+    <div class="codes-list" id="codesList"></div>
+  </div>
+  <div class="admin-pane" id="pane-requests">
+    <h3 style="font-family:var(--ff-head);font-size:1.1rem;color:var(--text);margin-bottom:.4rem">📥 Commandes reçues</h3>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:1rem">Appuyez sur <strong style="color:var(--green)">⚡ Valider</strong> pour générer et envoyer le code en 1 clic.</p>
+    <div id="reqList"></div>
+    <div id="noReqs" style="text-align:center;color:var(--muted);font-size:.85rem;padding:2rem;display:none">Aucune commande en attente.</div>
+  </div>
+</div>
+
+<button class="wa-float" id="waFloat" onclick="openWhatsApp()" style="display:none">💬</button>
+
+
+<script type="module">
+// ── Firebase SDK ────────────────────────────────────────────────────────────
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc,
+         collection, getDocs, addDoc, query, where
+       } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ── Vos clés Firebase ───────────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey:            "AIzaSyA5j0zWIldCzxcQRpHTvHzqNqCdbZw_2wo",
+  authDomain:        "toni-bepc.firebaseapp.com",
+  projectId:         "toni-bepc",
+  storageBucket:     "toni-bepc.firebasestorage.app",
+  messagingSenderId: "859656504457",
+  appId:https://0111prof-toni-bf.netlify.app"1:https://0111prof-toni-bf.netlify.app:web:15049cf5a52dbabe22f258"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// ── Config ──────────────────────────────────────────────────────────────────
+const CONFIG = {
+  phone:          '22654368180',
+  adminPassword:  'TONI2026',
+  price:          2500,
+  previewSeconds: 60,
+  pdfPreview:     'https://drive.google.com/file/d/1bQQ6b7S0JqpHmXMoIZ_B5rNECqTakZTi/preview',
+  siteUrl:        'toni-bf.netlify.app'
+};
+
+let currentUser=null,lastGeneratedCode=null,lastGeneratedName=null,
+    lastGeneratedPhone=null,timerInterval=null,timerSeconds=CONFIG.previewSeconds;
+
+// ── Navigation ──────────────────────────────────────────────────────────────
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  window.scrollTo(0,0);
+  document.getElementById('waFloat').style.display=
+    ['landing','payment'].includes(id)?'flex':'none';
+}
+
+// ── Toast ───────────────────────────────────────────────────────────────────
+function showToast(msg,dur=3000){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+// ── Init ────────────────────────────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const l=document.getElementById('loader');
+    l.classList.add('gone');
+    setTimeout(()=>l.style.display='none',700);
+  },1500);
+  const saved=localStorage.getItem('tdm_user');
+  if(saved){currentUser=JSON.parse(saved);openBook(false);}
+  initProtections();
+  document.getElementById('blockWa').href=
+    `https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(
+      'Bonjour Prof. TONI, je voudrais commander le Livre Fondamental de la Réussite Mathématiques 3ème à 2 500 FCFA.'
+    )}`;
+});
+
+// ── Protections ─────────────────────────────────────────────────────────────
+function initProtections(){
+  document.addEventListener('contextmenu',e=>{
+    e.preventDefault();showToast('🔒 Contenu protégé — © Prof. M. TONI');return false;
+  });
+  document.addEventListener('keydown',e=>{
+    const blocked=[{key:'PrintScreen'},{key:'F12'},
+      {ctrl:true,shift:true,key:'I'},{ctrl:true,shift:true,key:'J'},
+      {ctrl:true,shift:true,key:'C'},{ctrl:true,key:'U'},
+      {ctrl:true,key:'S'},{ctrl:true,key:'P'}];
+    const hit=blocked.some(b=>{
+      if(b.ctrl&&b.shift)return e.ctrlKey&&e.shiftKey&&e.key===b.key;
+      if(b.ctrl)return e.ctrlKey&&e.key===b.key;
+      return e.key===b.key;
+    });
+    if(hit){e.preventDefault();e.stopPropagation();
+      if(e.key==='PrintScreen')flashBlack();
+      showToast('🔒 Action non autorisée — © Prof. M. TONI');return false;}
+  });
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&currentUser)flashBlack();});
+  window.addEventListener('blur',()=>{
+    if(currentUser){
+      flashBlack();
+      const v=document.getElementById('pdfViewerWrap');
+      if(v){v.style.filter='blur(20px)';v.style.opacity='0.1';
+        setTimeout(()=>{v.style.filter='none';v.style.opacity='1';},2000);}
+    }
+  });
+  document.addEventListener('dragstart',e=>e.preventDefault());
+  document.addEventListener('touchstart',e=>{
+    if(e.target.closest('.pdf-viewer-wrap'))e.preventDefault();
+  },{passive:false});
+  const s=document.createElement('style');
+  s.textContent=`.pdf-viewer-wrap{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;}@media print{body{display:none!important;}}`;
+  document.head.appendChild(s);
+}
+
+function flashBlack(){
+  const o=document.getElementById('screenshotOverlay');
+  o.style.display='block';setTimeout(()=>o.style.display='none',800);
+}
+
+// ── Timer aperçu ────────────────────────────────────────────────────────────
+function startPreviewTimer(){
+  timerSeconds=CONFIG.previewSeconds;
+  const wrap=document.getElementById('timerWrap'),
+        count=document.getElementById('timerCount'),
+        fill=document.getElementById('timerFill');
+  wrap.style.display='block';
+  document.getElementById('pdfWatermarkText').textContent=
+    'APERÇU GRATUIT · Prépa BEPC 2026 Prof TONI · APERÇU GRATUIT';
+  timerInterval=setInterval(()=>{
+    timerSeconds--;
+    const m=Math.floor(timerSeconds/60),s=String(timerSeconds%60).padStart(2,'0');
+    count.textContent=`${m}:${s}`;
+    fill.style.width=(timerSeconds/CONFIG.previewSeconds*100)+'%';
+    if(timerSeconds<=20){count.classList.add('warning');fill.classList.add('warning');}
+    if(timerSeconds<=0){clearInterval(timerInterval);triggerBlock();}
+  },1000);
+}
+
+function stopTimer(){
+  if(timerInterval)clearInterval(timerInterval);
+  timerInterval=null;
+  document.getElementById('timerWrap').style.display='none';
+}
+
+function triggerBlock(){
+  document.getElementById('pdfFrame').src='';
+  document.getElementById('blockScreen').classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+//  IDENTIFIANT UNIQUE DE L'APPAREIL
+//  Genere un ID unique par telephone/navigateur et le stocke
+// ══════════════════════════════════════════════════════════════════════════
+function getDeviceId(){
+  let id=localStorage.getItem('tdm_device_id');
+  if(!id){
+    const nav=navigator.userAgent+navigator.language+screen.width+screen.height;
+    let hash=0;
+    for(let i=0;i<nav.length;i++){hash=((hash<<5)-hash)+nav.charCodeAt(i);hash|=0;}
+    id='DEV'+Math.abs(hash).toString(36).toUpperCase()+Date.now().toString(36).toUpperCase();
+    localStorage.setItem('tdm_device_id',id);
+  }
+  return id;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+//  VERIFICATION DU CODE - FIREBASE + VERROUILLAGE PAR APPAREIL
+//  Un code ne fonctionne que sur le telephone qui l'a active en premier
+// ══════════════════════════════════════════════════════════════════════════
+async function checkCode(){
+  const raw=document.getElementById('landingCodeInput').value.trim().toUpperCase();
+  const msg=document.getElementById('codeMsgLanding');
+  const inp=document.getElementById('landingCodeInput');
+
+  if(!raw){msg.textContent='Entrez votre code.';msg.className='code-msg err';return;}
+
+  msg.textContent='Verification...';msg.className='code-msg';
+  inp.disabled=true;
+
+  const deviceId=getDeviceId();
+
+  try{
+    const docRef=doc(db,'codes',raw);
+    const docSnap=await getDoc(docRef);
+    inp.disabled=false;
+
+    if(!docSnap.exists()){
+      inp.className='code-input error';
+      msg.textContent='Code invalide.';msg.className='code-msg err';
+      setTimeout(()=>inp.className='code-input',600);
+      return;
+    }
+
+    const code=docSnap.data();
+
+    if(code.status==='revoked'){
+      msg.textContent='Code revoque. Contactez Prof. TONI.';
+      msg.className='code-msg err';return;
+    }
+
+    // Verification appareil : code deja utilise sur autre telephone ?
+    if(code.deviceId && code.deviceId !== deviceId){
+      inp.className='code-input error';
+      msg.textContent='Ce code est deja active sur un autre appareil.';
+      msg.className='code-msg err';
+      setTimeout(()=>inp.className='code-input',600);
+      return;
+    }
+
+    // Premiere utilisation : enregistrer l'appareil + marquer utilise
+    if(code.status==='active'){
+      await updateDoc(docRef,{
+        status:'used',
+        usedAt:new Date().toISOString(),
+        deviceId:deviceId
+      });
+    }
+
+    inp.className='code-input success';
+    msg.textContent='Code valide ! Ouverture du livre...';
+    msg.className='code-msg ok';
+    currentUser={name:code.name,code:raw,phone:code.phone};
+    localStorage.setItem('tdm_user',JSON.stringify(currentUser));
+    setTimeout(()=>openBook(false),800);
+
+  }catch(err){
+    inp.disabled=false;
+    inp.className='code-input error';
+    msg.textContent='Erreur reseau. Reessayez.';
+    msg.className='code-msg err';
+    console.error('Firebase error:',err);
+  }
+}
+
+// ── Ouvrir le livre ─────────────────────────────────────────────────────────
+function openBook(isPreview){
+  stopTimer();
+  if(isPreview){
+    document.getElementById('welcomeName').textContent='Aperçu gratuit — 1 minute';
+    document.getElementById('welcomeSubtitle').textContent="⏱ Découvrez le livre avant d'acheter";
+    document.getElementById('welcomeCode').textContent='Sans code · Accès limité';
+    document.getElementById('welcomeCode').style.color='var(--muted)';
+    startPreviewTimer();
+  }else{
+    if(!currentUser)return;
+    document.getElementById('welcomeName').textContent='Bienvenue, '+currentUser.name.split(' ')[0]+' !';
+    document.getElementById('welcomeSubtitle').textContent='✅ Accès complet — lecture illimitée';
+    document.getElementById('welcomeCode').textContent='Code : '+currentUser.code;
+    document.getElementById('welcomeCode').style.color='var(--gold)';
+    document.getElementById('pdfWatermarkText').textContent=
+      `Propriété de ${currentUser.name} · Code ${currentUser.code} · © Prof TONI · `.repeat(4);
+    document.getElementById('timerWrap').style.display='none';
+  }
+  document.getElementById('pdfFrame').src=CONFIG.pdfPreview;
+  document.getElementById('blockScreen').classList.remove('active');
+  go('book');
+}
+
+function logout(){
+  stopTimer();currentUser=null;localStorage.removeItem('tdm_user');
+  document.getElementById('pdfFrame').src='';
+  document.getElementById('landingCodeInput').value='';
+  document.getElementById('codeMsgLanding').textContent='';
+  document.getElementById('blockScreen').classList.remove('active');
+  go('landing');
+}
+
+function blockBuy(){document.getElementById('blockScreen').classList.remove('active');go('payment');}
+function blockGoCode(){
+  document.getElementById('blockScreen').classList.remove('active');
+  document.getElementById('pdfFrame').src='';
+  go('landing');
+  setTimeout(()=>document.getElementById('landingCodeInput').focus(),400);
+}
+
+// ── Paiement ────────────────────────────────────────────────────────────────
+async function submitPayment(){
+  const name=document.getElementById('payName').value.trim();
+  const phone=document.getElementById('payPhone').value.trim();
+  const txn=document.getElementById('payTxn').value.trim();
+  const level=document.getElementById('payLevel').value.trim();
+  if(!name||!phone||!txn){showToast('⚠️ Remplissez tous les champs obligatoires !');return;}
+  const maintenant=new Date().toLocaleString('fr-FR',
+    {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  try{
+    await addDoc(collection(db,'requests'),{
+      name,phone,txn,level,submittedAt:new Date().toISOString(),status:'pending'
+    });
+  }catch(e){console.error('submitPayment:',e);}
+  const msgProf=encodeURIComponent(
+    `📥 *NOUVELLE COMMANDE — Prépa BEPC 2026*\n\n`+
+    `👤 *Nom :* ${name}\n📱 *Téléphone :* ${phone}\n`+
+    `🕐 *Heure de transaction :* ${txn}\n📚 *Niveau :* ${level||'Non précisé'}\n`+
+    `📅 *Date commande :* ${maintenant}\n\n`+
+    `✅ Vérifiez le paiement puis allez dans\n*Panel Admin → 📥 Commandes*\n`+
+    `et appuyez sur ⚡ *Valider*.\n\n`+
+    `_Livre Fondamental de la Réussite Mathématiques 3ème by Prof TONI_`
+  );
+  document.getElementById('pendingInfo').innerHTML=`
+    <div class="pend-row"><span>Nom</span><span>${name}</span></div>
+    <div class="pend-row"><span>Téléphone</span><span>${phone}</span></div>
+    <div class="pend-row"><span>Heure transaction</span><span>${txn}</span></div>
+    <div class="pend-row"><span>Montant</span><span style="color:var(--gold)">2 500 FCFA</span></div>
+    <div class="pend-row"><span>Statut</span><span style="color:var(--gold)">⏳ En attente</span></div>`;
+  const lienProf=`https://wa.me/${CONFIG.phone}?text=${msgProf}`;
+  document.getElementById('whatsappLink').href=lienProf;
+  setTimeout(()=>window.open(lienProf,'_blank'),600);
+  go('pending');
+}
+
+// ── Admin ───────────────────────────────────────────────────────────────────
+function adminLogin(){
+  if(document.getElementById('adminPass').value===CONFIG.adminPassword){
+    go('admin');refreshAdmin();
+  }else{
+    showToast('❌ Mot de passe incorrect');
+    document.getElementById('adminPass').value='';
+  }
+}
+
+function adminTab(tab){
+  const tabs=['stats','generate','codes','requests'];
+  document.querySelectorAll('.admin-tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));
+  document.querySelectorAll('.admin-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pane-'+tab).classList.add('active');
+  if(tab==='codes')renderCodesList();
+  if(tab==='requests')renderRequests();
+  if(tab==='stats')refreshStats();
+}
+
+async function refreshStats(){
+  try{
+    const snap=await getDocs(collection(db,'codes'));
+    const codes=snap.docs.map(d=>d.data());
+    document.getElementById('statTotal').textContent=codes.length;
+    document.getElementById('statActive').textContent=codes.filter(c=>c.status==='active').length;
+    document.getElementById('statUsed').textContent=codes.filter(c=>c.status==='used').length;
+    document.getElementById('statRevenue').textContent=
+      (codes.filter(c=>c.status!=='revoked').length*CONFIG.price).toLocaleString();
+  }catch(e){console.error('refreshStats:',e);}
+}
+function refreshAdmin(){refreshStats();}
+
+// ── Génération de code ───────────────────────────────────────────────────────
+function genererUnCode(existing){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code='';
+  do{code='';for(let i=0;i<8;i++)code+=chars[Math.floor(Math.random()*chars.length)];}
+  while(existing.includes(code));
+  return code;
+}
+
+async function generateCodeManuel(){
+  const name=document.getElementById('genName').value.trim();
+  const phone=document.getElementById('genPhone').value.trim();
+  const txn=document.getElementById('genTxn').value.trim();
+  const note=document.getElementById('genNote').value.trim();
+  if(!name||!phone){showToast('⚠️ Nom et téléphone requis');return;}
+  try{
+    const snap=await getDocs(collection(db,'codes'));
+    const existing=snap.docs.map(d=>d.id);
+    const code=genererUnCode(existing);
+    await setDoc(doc(db,'codes',code),{
+      name,phone,txn,note,status:'active',
+      createdAt:new Date().toISOString(),usedAt:null
+    });
+    lastGeneratedCode=code;lastGeneratedName=name;lastGeneratedPhone=phone;
+    document.getElementById('generatedBox').style.display='block';
+    document.getElementById('genForName').textContent=name;
+    document.getElementById('genCodeDisplay').textContent=code;
+    document.getElementById('genCodeInfo').innerHTML=
+      `📱 ${phone} ${txn?'· 🕐 '+txn:''} ${note?'· '+note:''}`;
+    refreshStats();showToast('✅ Code généré et enregistré !');
+    ['genName','genPhone','genTxn','genNote'].forEach(id=>document.getElementById(id).value='');
+  }catch(e){showToast('❌ Erreur Firebase. Réessayez.');console.error(e);}
+}
+
+function copyGeneratedCode(){
+  if(!lastGeneratedCode)return;
+  navigator.clipboard.writeText(lastGeneratedCode)
+    .then(()=>showToast('📋 Code copié : '+lastGeneratedCode));
+}
+
+function shareManuelWhatsApp(){
+  if(!lastGeneratedCode)return;
+  const num=lastGeneratedPhone?'226'+lastGeneratedPhone.replace(/^226/,''):'';
+  const msg=encodeURIComponent(
+    `Bonjour *${lastGeneratedName}* 👋\n\nVoici votre *code d'accès personnel* :\n\n`+
+    `🔑 *${lastGeneratedCode}*\n\n👉 *${CONFIG.siteUrl}*\n\n`+
+    `⚠️ Code personnel — ne pas partager.\n\nBonne réussite ! 📚\n*Prof. M. TONI*`
+  );
+  window.open(`https://wa.me/${num}?text=${msg}`,'_blank');
+}
+
+// ── Liste codes admin ────────────────────────────────────────────────────────
+async function renderCodesList(){
+  const list=document.getElementById('codesList');
+  list.innerHTML='<div style="text-align:center;color:var(--muted);padding:1rem">Chargement…</div>';
+  try{
+    const snap=await getDocs(collection(db,'codes'));
+    if(snap.empty){
+      list.innerHTML='<div style="text-align:center;color:var(--muted);padding:2rem;font-size:.85rem">Aucun code généré</div>';
+      return;
+    }
+    const codes=snap.docs.map(d=>({code:d.id,...d.data()}))
+      .sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+    list.innerHTML=codes.map(c=>`
+      <div class="code-row">
+        <div class="code-val">${c.code}</div>
+        <div class="code-meta"><strong>${c.name}</strong><br/>${c.phone}${c.note?' · '+c.note:''}</div>
+        <div class="code-status ${c.status}">${c.status==='active'?'Actif':c.status==='used'?'Utilisé':'Révoqué'}</div>
+        ${c.status!=='revoked'?`<button class="btn-revoke" onclick="revokeCode('${c.code}')">Révoquer</button>`:''}
+      </div>`).join('');
+  }catch(e){list.innerHTML='<div style="color:var(--red);padding:1rem">Erreur chargement</div>';}
+}
+
+async function revokeCode(code){
+  if(!confirm('Révoquer le code '+code+' ?'))return;
+  try{
+    await updateDoc(doc(db,'codes',code),{status:'revoked'});
+    renderCodesList();refreshStats();showToast('⚠️ Code révoqué');
+  }catch(e){showToast('❌ Erreur Firebase');}
+}
+
+// ── Commandes admin ──────────────────────────────────────────────────────────
+async function renderRequests(){
+  const list=document.getElementById('reqList'),none=document.getElementById('noReqs');
+  list.innerHTML='<div style="text-align:center;color:var(--muted);padding:1rem">Chargement…</div>';
+  try{
+    const snap=await getDocs(query(collection(db,'requests'),where('status','==','pending')));
+    if(snap.empty){list.innerHTML='';none.style.display='block';return;}
+    none.style.display='none';
+    const reqs=snap.docs.map(d=>({id:d.id,...d.data()}));
+    list.innerHTML=reqs.map(r=>`
+      <div class="req-card">
+        <div class="req-name">👤 ${r.name}</div>
+        <div class="req-detail">
+          📱 ${r.phone}<br/>🕐 Heure : ${r.txn}<br/>
+          📚 ${r.level||'Non précisé'}<br/>
+          📅 ${new Date(r.submittedAt).toLocaleString('fr-FR')}
+        </div>
+        <button onclick="validerEtEnvoyer('${r.id}')"
+          style="display:block;width:100%;background:var(--green);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:.95rem;padding:.85rem;margin-top:.5rem;cursor:pointer;box-shadow:0 4px 16px rgba(82,201,122,.3)">
+          ⚡ Valider + Générer + Envoyer WhatsApp
+        </button>
+        <button onclick="rejectRequest('${r.id}')"
+          style="display:block;width:100%;background:none;border:1px solid rgba(224,82,82,.3);color:var(--red);font-size:.8rem;padding:.5rem;border-radius:8px;margin-top:.4rem;cursor:pointer">
+          ❌ Rejeter
+        </button>
+      </div>`).join('');
+  }catch(e){list.innerHTML='<div style="color:var(--red);padding:1rem">Erreur chargement</div>';}
+}
+
+async function validerEtEnvoyer(reqId){
+  try{
+    const reqRef=doc(db,'requests',reqId);
+    const reqSnap=await getDoc(reqRef);
+    if(!reqSnap.exists())return;
+    const r=reqSnap.data();
+    const codesSnap=await getDocs(collection(db,'codes'));
+    const existing=codesSnap.docs.map(d=>d.id);
+    const code=genererUnCode(existing);
+    await setDoc(doc(db,'codes',code),{
+      name:r.name,phone:r.phone,txn:r.txn,note:r.level||'',
+      status:'active',createdAt:new Date().toISOString(),usedAt:null
+    });
+    await updateDoc(reqRef,{status:'approved'});
+    const numEleve=r.phone.startsWith('226')?r.phone:'226'+r.phone;
+    const msg=encodeURIComponent(
+      `Bonjour *${r.name}* 👋\n\n`+
+      `Votre paiement de *2 500 FCFA* a été vérifié et validé. ✅\n\n`+
+      `Voici votre *code d'accès personnel* :\n\n🔑 *${code}*\n\n`+
+      `📱 Ouvrez le site :\n👉 *${CONFIG.siteUrl}*\n\n`+
+      `Entrez ce code pour accéder au *Livre Fondamental de la Réussite Mathématiques 3ème* — accès illimité.\n\n`+
+      `⚠️ Ce code est *personnel et unique*.\n🚫 Ne le partagez jamais.\n\n`+
+      `Bonne réussite au BEPC 2026 ! 📚\n*Prof. M. TONI*`
+    );
+    window.open(`https://wa.me/${numEleve}?text=${msg}`,'_blank');
+    refreshStats();renderRequests();
+    showToast(`✅ Code ${code} envoyé à ${r.name} !`,4000);
+  }catch(e){showToast('❌ Erreur Firebase');console.error(e);}
+}
+
+async function rejectRequest(reqId){
+  if(!confirm('Rejeter cette demande ?'))return;
+  try{
+    await updateDoc(doc(db,'requests',reqId),{status:'rejected'});
+    renderRequests();showToast('❌ Demande rejetée');
+  }catch(e){showToast('❌ Erreur Firebase');}
+}
+
+async function exportCodes(){
+  const snap=await getDocs(collection(db,'codes'));
+  const codes=snap.docs.map(d=>({code:d.id,...d.data()}));
+  const csv=['Code,Nom,Téléphone,Statut,Date']
+    .concat(codes.map(c=>`${c.code},${c.name},${c.phone},${c.status},${c.createdAt.split('T')[0]}`))
+    .join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='prepa-bepc-codes.csv';a.click();
+}
+
+function copyText(t,m){navigator.clipboard.writeText(t).then(()=>showToast('📋 '+(m||'Copié !')));}
+function openWhatsApp(){
+  window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(
+    'Bonjour Prof. TONI, je voudrais commander le Livre Fondamental de la Réussite Mathématiques 3ème à 2 500 FCFA.'
+  )}`,'_blank');
+}
+
+// ── Exposer au HTML ──────────────────────────────────────────────────────────
+window.go=go;window.checkCode=checkCode;window.openBook=openBook;
+window.logout=logout;window.blockBuy=blockBuy;window.blockGoCode=blockGoCode;
+window.submitPayment=submitPayment;window.adminLogin=adminLogin;
+window.adminTab=adminTab;window.generateCodeManuel=generateCodeManuel;
+window.copyGeneratedCode=copyGeneratedCode;window.shareManuelWhatsApp=shareManuelWhatsApp;
+window.renderCodesList=renderCodesList;window.revokeCode=revokeCode;
+window.renderRequests=renderRequests;window.validerEtEnvoyer=validerEtEnvoyer;
+window.rejectRequest=rejectRequest;window.exportCodes=exportCodes;
+window.copyText=copyText;window.openWhatsApp=openWhatsApp;
+
+if('serviceWorker'in navigator)
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
